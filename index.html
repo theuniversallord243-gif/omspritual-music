@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF7A00">
+    <title>Omspritual - Divine Bhakti Songs</title>
+    <meta name="description" content="Download and listen to beautiful Bhakti songs on Omspritual.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Yatra+One&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Phosphor Icons for beautiful UI icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+
+    <!-- Background Design -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="brand-container">
+                <a href="#" class="logo">
+                    <img src="https://unavatar.io/youtube/Omspritual0" alt="Omspritual" class="nav-logo-img">
+                    Omspritual
+                </a>
+                <a href="https://www.youtube.com/@Omspritual0" target="_blank" class="nav-yt-link">
+                    <i class="ph-fill ph-youtube-logo"></i> @Omspritual0
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#songs">Bhajans</a></li>
+                <li><a href="#" class="upload-btn share-trigger"><i class="ph-bold ph-upload-simple"></i> Upload</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">Divine Melodies for the <span class="highlight">Soul</span></h1>
+            <p class="hero-subtitle">Immerse yourself in a vast collection of Bhakti songs. Listen, feel the devotion,
+                and download your favorite spiritual tracks.</p>
+            <div class="hero-actions">
+                <a href="#songs" class="btn btn-primary"><i class="ph-fill ph-play-circle"></i> Listen Now</a>
+                <a href="#" class="btn btn-secondary share-trigger">Share a Song</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="songs" class="songs-section">
+            <div class="section-header">
+                <h2>Trending <span class="bhagwa-text">Bhakti Songs</span></h2>
+                <div class="search-bar">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Search bhajans, aarti...">
+                </div>
+            </div>
+
+            <div class="songs-grid" id="songs-container">
+                <!-- Javascript will inject song cards here -->
+            </div>
+        </section>
+
+        <!-- Mock Audio Player (Fixed at bottom when playing) -->
+        <div class="audio-player" id="audio-player">
+            <div class="player-info">
+                <div class="player-icon"><i class="ph-fill ph-music-notes"></i></div>
+                <div class="player-text">
+                    <h4 id="player-title">Shri Ram Janki</h4>
+                    <p id="player-artist">Unknown Artist</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="ctrl-btn"><i class="ph-fill ph-skip-back"></i></button>
+                <button class="ctrl-btn play-pause-btn" id="main-play-btn"><i
+                        class="ph-fill ph-pause-circle"></i></button>
+                <button class="ctrl-btn"><i class="ph-fill ph-skip-forward"></i></button>
+            </div>
+            <div class="player-actions">
+                <button class="ctrl-btn" id="player-close-btn"><i class="ph ph-x"></i></button>
+            </div>
+        </div>
+        <!-- Ad Modal Container -->
+        <div class="ad-modal-overlay" id="ad-modal">
+            <div class="ad-modal-content">
+                <div class="ad-header">
+                    <h4>Sponsored Advertisement</h4>
+                </div>
+                <!-- Mock Ad content (A gif or embedded image) -->
+                <div class="ad-body">
+                    <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/mp4.jpg"
+                        alt="Video Ad Placeholder"
+                        style="width:100%; max-width:400px; height:auto; border-radius:10px;">
+                    <p>Watching this ad supports Omspritual!</p>
+                </div>
+                <div class="ad-footer">
+                    <p id="ad-timer">Your download will start in <span id="ad-countdown">10</span> seconds...</p>
+                    <button class="btn btn-secondary" id="close-ad-btn" style="display:none; margin:0 auto;">Download
+                        Now</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Video Player Modal -->
+    <div class="video-modal-overlay" id="video-modal">
+        <div class="video-modal-content">
+            <button id="close-video-btn" class="close-video"><i class="ph-bold ph-x"></i></button>
+            <video id="main-video-player" controls controlsList="nodownload"></video>
+        </div>
+    </div>
+
+    <!-- Admin Restriction Modal Container -->
+    <div class="ad-modal-overlay" id="admin-modal">
+        <div class="ad-modal-content">
+            <div class="ad-header">
+                <h4><i class="ph-bold ph-lock-key"></i> Restricted Access</h4>
+            </div>
+            <div class="ad-body" style="background:#FFF9F2; color:var(--text-main); font-weight:500;">
+                <p>Sorry, this is only for the website admin.</p><br>
+                <p style="font-size:14px; color:var(--text-muted);">If you want to share your idea or a song, then email
+                    on:<br>
+                    <a href="mailto:omspritualsupport@gmail.com" style="color:#FF7A00;">omspritualsupport@gmail.com</a>
+                </p>
+            </div>
+            <div class="ad-footer">
+                <button class="btn btn-primary" id="close-admin-btn" style="margin:0 auto;">Okay, Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>
+                    <img src="https://unavatar.io/youtube/Omspritual0" alt="Omspritual" class="footer-logo-img">
+                    Omspritual
+                </h3>
+                <p class="yt-desc">
+                    ओम आध्यात्मिक (Om Spritual) नमक हमारे इस चैनल में आपका स्वागत है l <br><br>
+                    Like 👍<br>
+                    Subscribe, share📍<br>
+                    & ©omment for Support. <br><br>
+                    <a href="https://www.youtube.com/@Omspritual0" target="_blank" class="yt-link"><i
+                            class="ph-fill ph-youtube-logo"></i> @Omspritual0</a><br><br>
+                    <strong>Support Email:</strong> <a href="mailto:omspritualsupport@gmail.com"
+                        style="color:var(--text-muted);">omspritualsupport@gmail.com</a>
+                </p>
+            </div>
+            <p class="copyright">&copy; 2026 Omspritual. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,664 @@
+:root {
+    --bhagwa-primary: #FF7A00;
+    --bhagwa-light: #FF9E40;
+    --bhagwa-dark: #cc6200;
+    --bg-color: #FFF9F2;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --text-main: #2D1A00;
+    --text-muted: #7A5F45;
+    --shadow: 0 10px 30px rgba(255, 122, 0, 0.1);
+    --shadow-hover: 0 20px 40px rgba(255, 122, 0, 0.2);
+    --border-color: rgba(255, 122, 0, 0.15);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background floating abstract shapes */
+.bg-shape {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.shape-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #FF9E40, #FFD2A6);
+    top: -200px;
+    right: -100px;
+    animation: drift 15s infinite alternate ease-in-out;
+}
+
+.shape-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #FFB973, #FFE5CC);
+    bottom: -150px;
+    left: -150px;
+    animation: drift 20s infinite alternate-reverse ease-in-out;
+}
+
+@keyframes drift {
+    100% {
+        transform: translate(-50px, 50px);
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Typography elements */
+.bhagwa-text {
+    background: linear-gradient(135deg, var(--bhagwa-primary), var(--bhagwa-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Yatra One', cursive;
+    /* Indian styled font */
+}
+
+/* --- Navigation --- */
+.navbar {
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 249, 242, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.logo {
+    font-family: 'Yatra One', cursive;
+    font-size: 28px;
+    text-decoration: none;
+    color: var(--bhagwa-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-yt-link {
+    font-size: 13px;
+    color: #FF0000;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 48px;
+    margin-top: -4px;
+    transition: var(--transition);
+}
+
+.nav-yt-link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.nav-logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--bhagwa-primary);
+}
+
+.footer-logo-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.yt-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.yt-link {
+    color: #FF0000;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+}
+
+.yt-link:hover {
+    text-decoration: underline;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--bhagwa-primary);
+}
+
+.upload-btn {
+    background: linear-gradient(135deg, var(--bhagwa-light), var(--bhagwa-primary));
+    color: white !important;
+    padding: 10px 24px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(255, 122, 0, 0.3);
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 122, 0, 0.4);
+}
+
+
+/* --- Hero Section --- */
+.hero {
+    padding: 100px 0 80px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-title {
+    font-size: 64px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    font-weight: 800;
+}
+
+.hero-title .highlight {
+    font-family: 'Yatra One', cursive;
+    color: var(--bhagwa-primary);
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--bhagwa-primary), var(--bhagwa-dark));
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 122, 0, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 122, 0, 0.5);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--bhagwa-primary);
+    border: 2px solid var(--bhagwa-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--bhagwa-primary);
+    color: white;
+}
+
+
+/* --- Songs Section --- */
+.songs-section {
+    padding: 40px 0 100px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    font-size: 32px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    width: 300px;
+}
+
+.search-bar i {
+    color: var(--bhagwa-primary);
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 16px;
+    font-family: 'Outfit';
+}
+
+
+/* --- Grid & Cards --- */
+.songs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.song-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.song-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bhagwa-light), var(--bhagwa-primary));
+}
+
+.song-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--bhagwa-primary);
+}
+
+.song-icon {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: rgba(255, 122, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--bhagwa-primary);
+    font-size: 48px;
+}
+
+.song-details h3 {
+    font-size: 20px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.song-details p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--text-muted);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.action-btn:hover {
+    background: rgba(255, 122, 0, 0.1);
+    color: var(--bhagwa-primary);
+}
+
+.btn-dl {
+    background: var(--bhagwa-primary);
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: flex;
+    gap: 6px;
+    font-weight: 600;
+    width: auto;
+}
+
+.btn-dl:hover {
+    background: var(--bhagwa-dark);
+    color: white;
+    transform: scale(1.05);
+}
+
+
+/* --- Floating Player --- */
+.audio-player {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(150px);
+    /* hidden initially */
+    background: rgba(25, 25, 25, 0.95);
+    backdrop-filter: blur(15px);
+    color: white;
+    padding: 16px 30px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.audio-player.active {
+    transform: translateX(-50%) translateY(0);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-info .player-icon {
+    color: var(--bhagwa-light);
+    font-size: 28px;
+}
+
+.player-text h4 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.player-text p {
+    font-size: 12px;
+    color: #AAA;
+    margin: 0;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ctrl-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ctrl-btn:hover {
+    color: var(--bhagwa-primary);
+}
+
+.play-pause-btn {
+    font-size: 40px;
+    color: var(--bhagwa-primary);
+}
+
+
+/* Footer */
+footer {
+    background: white;
+    padding: 40px 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: 40px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-brand h3 {
+    color: var(--bhagwa-primary);
+    font-family: 'Yatra One', cursive;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-brand p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.copyright {
+    color: #999;
+    font-size: 14px;
+}
+
+/* --- Ad Modal --- */
+.ad-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.ad-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Video Player Modal */
+.video-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.video-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+}
+
+.video-modal-content video {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.close-video {
+    position: absolute;
+    top: -45px;
+    right: -10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-video:hover {
+    color: var(--bhagwa-primary);
+}
+
+.ad-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--bhagwa-primary);
+}
+
+.ad-header h4 {
+    color: var(--text-muted);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.ad-body {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.ad-footer p {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.ad-footer span {
+    color: var(--bhagwa-primary);
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 40px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .audio-player {
+        width: 95%;
+        padding: 12px 20px;
+        bottom: 15px;
+    }
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omspritual - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Yatra+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .form-group input[type="file"] {
+            padding: 10px;
+            background: #fafafa;
+        }
+
+        .notification {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8dbdf;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="admin-container">
+            <h2 class="bhagwa-text" style="font-size: 32px; text-align: center; margin-bottom: 30px;">Omspritual Admin
+            </h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label>Song / Video Title</label>
+                    <input type="text" id="title" required placeholder="e.g Shri Ram Janki">
+                </div>
+                <div class="form-group">
+                    <label>Artist Name</label>
+                    <input type="text" id="artist" required placeholder="e.g Bhakti Sagar">
+                </div>
+                <div class="form-group">
+                    <label>Duration (e.g 5:32)</label>
+                    <input type="text" id="duration" placeholder="e.g 4:10 / 5:32">
+                </div>
+                <div class="form-group">
+                    <label>Media Type</label>
+                    <select id="mediaType">
+                        <option value="audio">Audio (MP3)</option>
+                        <option value="video">Video (MP4)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Upload Media File (MP3 / MP4)</label>
+                    <input type="file" id="mediaFile" accept="audio/*,video/*" required>
+                </div>
+                <div class="form-group">
+                    <label>Upload Thumbnail (Optional)</label>
+                    <input type="file" id="thumbnailFile" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; justify-content: center; margin-top: 20px;">Upload to Website</button>
+            </form>
+            <div id="notify" class="notification"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://bijejjmswcuvxeyfxskk.supabase.co';
+        const supabaseKey = 'sb_publishable_INMt2GF45SyrpsBbNFSMsg_2NWLCKbJ';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.querySelector('button');
+            const notif = document.getElementById('notify');
+
+            btn.innerText = "Processing...";
+            const mediaFile = document.getElementById('mediaFile').files[0];
+            const thumbFile = document.getElementById('thumbnailFile').files[0];
+            const title = document.getElementById('title').value;
+            const artist = document.getElementById('artist').value;
+            const mediaType = document.getElementById('mediaType').value;
+            const duration = document.getElementById('duration').value || '0:00';
+
+            btn.innerText = "Uploading to Cloud...";
+
+            try {
+                // 1. Upload Media
+                const mediaName = `${Date.now()}-${mediaFile.name}`;
+                const { data: mData, error: mErr } = await supabase.storage.from('omspritual_media').upload(mediaName, mediaFile);
+                if (mErr) throw mErr;
+                const media_url = supabase.storage.from('omspritual_media').getPublicUrl(mediaName).data.publicUrl;
+
+                // 2. Upload Thumbnail (Optional)
+                let thumbnail_url = '';
+                if (thumbFile) {
+                    const tName = `${Date.now()}-${thumbFile.name}`;
+                    const { error: tErr } = await supabase.storage.from('omspritual_media').upload(tName, thumbFile);
+                    if (tErr) throw tErr;
+                    thumbnail_url = supabase.storage.from('omspritual_media').getPublicUrl(tName).data.publicUrl;
+                }
+
+                // 3. Save to Database Table
+                const { error: dbErr } = await supabase.from('media').insert([
+                    { title, artist, type: mediaType, duration, media_url, thumbnail_url }
+                ]);
+                if (dbErr) throw dbErr;
+
+                notif.style.display = 'block';
+                notif.className = 'notification success';
+                notif.innerText = 'Uploaded Successfully to Supabase! Check the homepage.';
+                document.getElementById('uploadForm').reset();
+            } catch (e) {
+                console.error(e);
+                notif.style.display = 'block';
+                notif.className = 'notification error';
+                notif.innerText = 'Error: ' + e.message;
+            }
+            btn.innerText = "Upload to Website";
+        });
+    </script>
+</body>
+
+</html>

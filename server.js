@@ -95,7 +95,7 @@ app.post('/api/generate-music', async (req, res) => {
         // 1. Call Hugging Face API to generate Music
         console.log("Generating Music via Hugging Face...");
         const response = await fetch(
-            'https://router.huggingface.co/hf-inference/models/facebook/musicgen-small',
+            'https://api-inference.huggingface.co/models/facebook/musicgen-small',
             {
                 method: 'POST',
                 headers: {

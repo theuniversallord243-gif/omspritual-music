@@ -75,6 +75,7 @@ body {
 .bhagwa-text {
     background: linear-gradient(135deg, var(--bhagwa-primary), var(--bhagwa-dark));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: 'Yatra One', cursive;
     /* Indian styled font */

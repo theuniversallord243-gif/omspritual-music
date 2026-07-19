@@ -4,6 +4,8 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first'); // Fix Vercel ENOTFOUND IPv6 bug
 const cloudinary = require('cloudinary').v2;
 const axios = require('axios');
 const { createClient } = require('@supabase/supabase-js');

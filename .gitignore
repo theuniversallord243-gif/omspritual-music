@@ -1,5 +1,0 @@
-node_modules/
-.env
-
-# Optional: Ignore local uploads folder if present
-uploads/

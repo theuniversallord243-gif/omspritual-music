@@ -240,4 +240,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         adminModal.classList.remove('active');
     });
 
+    const openAiBtn = document.getElementById('create-music-trigger');
+    if (openAiBtn) {
+        openAiBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert("Sorry! AI Music Generator is currently Work in Progress. 🚧");
+        });
+    }
+
 });

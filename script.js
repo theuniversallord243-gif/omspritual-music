@@ -253,11 +253,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (openAiBtn) {
         openAiBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            aiModal.classList.add('active');
-            aiLoading.style.display = 'none';
-            aiResult.style.display = 'none';
-            generateAiBtn.style.display = 'flex';
-            aiPrompt.value = '';
+            alert("Sorry! AI Music Generator is currently Work in Progress. 🚧");
         });
     }
 

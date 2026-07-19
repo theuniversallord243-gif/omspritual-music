@@ -94,19 +94,25 @@ app.post('/api/generate-music', async (req, res) => {
 
         // 1. Call Hugging Face API to generate Music
         console.log("Generating Music via Hugging Face...");
-        const hfResponse = await axios.post(
-            'https://api-inference.huggingface.co/models/facebook/musicgen-small',
-            { inputs: prompt },
+        const response = await fetch(
+            'https://router.huggingface.co/hf-inference/models/facebook/musicgen-small',
             {
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${process.env.HUGGINGFACE_TOKEN}`,
                     'Content-Type': 'application/json'
                 },
-                responseType: 'arraybuffer'
+                body: JSON.stringify({ inputs: prompt })
             }
         );
 
-        const audioBuffer = hfResponse.data;
+        if (!response.ok) {
+            throw new Error(`Hugging Face Error: ${response.status} ${response.statusText}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        const audioBuffer = Buffer.from(arrayBuffer);
+
         if (!audioBuffer) throw new Error("Failed to get audio from Hugging Face API");
 
         console.log("Music Generated. Uploading to Cloudinary...");

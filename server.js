@@ -90,31 +90,42 @@ app.post('/api/generate-music', async (req, res) => {
         const { prompt } = req.body;
         if (!prompt) return res.status(400).json({ success: false, error: 'Prompt is required' });
 
-        // 1. Call Suno API to generate Music
-        const sunoResponse = await axios.post('https://suno-api.p.rapidapi.com/api/suno/v1/music', {
-            prompt: prompt,
-            make_instrumental: false
-        }, {
-            headers: {
-                'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-                'X-RapidAPI-Host': 'suno-api.p.rapidapi.com'
+        // 1. Call Hugging Face API to generate Music
+        console.log("Generating Music via Hugging Face...");
+        const hfResponse = await axios.post(
+            'https://api-inference.huggingface.co/models/facebook/musicgen-small',
+            { inputs: prompt },
+            {
+                headers: {
+                    'Authorization': `Bearer ${process.env.HUGGINGFACE_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                responseType: 'arraybuffer'
             }
-        });
+        );
 
-        // Note: The specific response path depends on API, usually audio_url is present, 
-        // sometimes it returns an array of songs. Assuming data[0].audio_url for PiAPI suno wrappers.
-        const sunoData = sunoResponse.data?.data || sunoResponse.data;
-        const sunoAudioUrl = Array.isArray(sunoData) ? sunoData[0].audio_url : (sunoData.audio_url || '');
-
-        if (!sunoAudioUrl) throw new Error("Failed to get audio URL from Suno API");
+        const audioBuffer = hfResponse.data;
+        if (!audioBuffer) throw new Error("Failed to get audio from Hugging Face API");
 
         console.log("Music Generated. Uploading to Cloudinary...");
 
-        // 2. Upload the MP3 to Cloudinary for permanent storage
-        const cloudinaryUpload = await cloudinary.uploader.upload(sunoAudioUrl, {
-            resource_type: "video", // Cloudinary uses 'video' for audio files
-            folder: "omspritual/ai_music",
-        });
+        // 2. Upload the buffer to Cloudinary for permanent storage
+        const uploadToCloudinary = (buffer) => {
+            return new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    { resource_type: "video", folder: "omspritual/ai_music" },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                const { Readable } = require('stream');
+                const stream = Readable.from(buffer);
+                stream.pipe(uploadStream);
+            });
+        };
+
+        const cloudinaryUpload = await uploadToCloudinary(audioBuffer);
         const finalAudioUrl = cloudinaryUpload.secure_url;
 
         console.log("Saving to Supabase Database...");

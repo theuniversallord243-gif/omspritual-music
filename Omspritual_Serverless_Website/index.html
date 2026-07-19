@@ -7,15 +7,6 @@
     <meta name="theme-color" content="#FF7A00">
     <title>Omspritual - Divine Bhakti Songs</title>
     <meta name="description" content="Download and listen to beautiful Bhakti songs on Omspritual.">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B7ZRJ8QGQV"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-B7ZRJ8QGQV');
-    </script>
-
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Yatra+One&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -58,8 +49,7 @@
                 and download your favorite spiritual tracks.</p>
             <div class="hero-actions">
                 <a href="#songs" class="btn btn-primary"><i class="ph-fill ph-play-circle"></i> Listen Now</a>
-                <a href="#" class="btn btn-secondary" id="create-music-trigger"><i class="ph-bold ph-magic-wand"></i>
-                    Create Your Own</a>
+                <a href="#" class="btn btn-secondary share-trigger">Share a Song</a>
             </div>
         </div>
     </header>
@@ -144,40 +134,6 @@
             </div>
             <div class="ad-footer">
                 <button class="btn btn-primary" id="close-admin-btn" style="margin:0 auto;">Okay, Got it</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI Music Generator Modal -->
-    <div class="ad-modal-overlay" id="ai-music-modal">
-        <div class="ad-modal-content" style="max-width: 600px;">
-            <div class="ad-header"
-                style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                <h4 style="margin: 0;"><i class="ph-bold ph-magic-wand"></i> Create AI Music</h4>
-                <button id="close-ai-btn"
-                    style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text-muted); padding: 0;"><i
-                        class="ph-bold ph-x"></i></button>
-            </div>
-            <div class="ad-body" style="background:#FFF9F2; color:var(--text-main); font-weight:500; text-align:left;">
-                <p style="margin-bottom: 10px;">Describe the music you want to create:</p>
-                <textarea id="ai-music-prompt" placeholder="e.g., A relaxing flute melody with soft tabla beats..."
-                    style="width:100%; height:80px; padding:10px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:15px; font-family:'Outfit'; resize:none;"></textarea>
-                <div id="ai-loading"
-                    style="display:none; text-align:center; color:var(--bhagwa-primary); margin-bottom:15px; padding: 20px;">
-                    <i class="ph-bold ph-spinner ph-spin"
-                        style="font-size:32px; display:inline-block; animation: spin 1s linear infinite;"></i>
-                    <p style="font-size:14px; margin-top:10px;">Generating your divine melody...</p>
-                </div>
-                <div id="ai-result" style="display:none; text-align:center; margin-top: 10px;">
-                    <audio id="ai-audio-player" controls
-                        style="width:100%; height:40px; margin-bottom:10px; outline:none; border-radius:30px;"></audio>
-                    <p style="font-size:14px; color:green; font-weight:bold;">Music generated successfully!</p>
-                </div>
-            </div>
-            <div class="ad-footer" style="text-align: right; border-top: none;">
-                <button class="btn btn-primary" id="generate-ai-btn"
-                    style="margin-left: auto; width:100%; justify-content:center;"><i class="ph-bold ph-sparkle"></i>
-                    Generate Music</button>
             </div>
         </div>
     </div>

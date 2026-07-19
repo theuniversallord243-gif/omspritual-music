@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Setup Supabase
     const supabaseUrl = 'https://bijejjmswcuvxeyfxskk.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamVqam1zd2N1dnhleWZ4c2trIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzODQ2ODYsImV4cCI6MjA5OTk2MDY4Nn0.Nd1o5dOCL_Grmll_ZHN9jj8FJbt_UoH__X1cGR56NcM';
-    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+    const supabaseKey = 'sb_publishable_INMt2GF45SyrpsBbNFSMsg_2NWLCKbJ';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
     // Fetch songs from Supabase Database
     try {
-        const { data, error } = await supabaseClient
+        const { data, error } = await supabase
             .from('media')
             .select('*')
             .order('created_at', { ascending: false });
@@ -125,15 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         adModal.classList.remove('active');
         // trigger actual download
         if (pendingDownloadUrl && pendingDownloadUrl !== '#') {
-            const isSupabase = pendingDownloadUrl.includes('supabase.co');
-            const finalUrl = isSupabase ? pendingDownloadUrl + '?download=' : pendingDownloadUrl;
-
-            const link = document.createElement('a');
-            link.href = finalUrl;
-            link.setAttribute('download', '');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            window.open(pendingDownloadUrl, '_blank');
         } else {
             alert("File download started! (Demo)");
         }
@@ -160,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const videoPlayer = document.getElementById('main-video-player');
 
                 videoModal.classList.add('active');
-                videoPlayer.src = song.media_url;
+                videoPlayer.src = `http://localhost:3000${song.media_url}`;
 
                 // Ensure UI respects playback
                 videoPlayer.play();
@@ -177,7 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 playArtist.innerText = song.artist;
 
                 // Start new audio
-                currentAudio = new Audio(song.media_url);
+                currentAudio = new Audio(`http://localhost:3000${song.media_url}`);
                 currentAudio.play();
 
                 // Set state to playing
@@ -239,70 +231,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     closeAdminBtn.addEventListener('click', () => {
         adminModal.classList.remove('active');
     });
-
-    // AI Music Generator Modal Logic
-    const aiModal = document.getElementById('ai-music-modal');
-    const openAiBtn = document.getElementById('create-music-trigger');
-    const closeAiBtn = document.getElementById('close-ai-btn');
-    const generateAiBtn = document.getElementById('generate-ai-btn');
-    const aiLoading = document.getElementById('ai-loading');
-    const aiResult = document.getElementById('ai-result');
-    const aiAudioPlayer = document.getElementById('ai-audio-player');
-    const aiPrompt = document.getElementById('ai-music-prompt');
-
-    if (openAiBtn) {
-        openAiBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            aiModal.classList.add('active');
-            aiLoading.style.display = 'none';
-            aiResult.style.display = 'none';
-            generateAiBtn.style.display = 'flex';
-            aiPrompt.value = '';
-        });
-    }
-
-    if (closeAiBtn) {
-        closeAiBtn.addEventListener('click', () => {
-            aiModal.classList.remove('active');
-        });
-    }
-
-    if (generateAiBtn) {
-        generateAiBtn.addEventListener('click', () => {
-            const prompt = aiPrompt.value.trim();
-            if (!prompt) {
-                alert("Please describe the music you want to create!");
-                return;
-            }
-            generateAiBtn.style.display = 'none';
-            aiLoading.style.display = 'block';
-            aiResult.style.display = 'none';
-
-            // Call Backend to generate AI Music
-            fetch('/api/generate-music', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ prompt: prompt })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    aiLoading.style.display = 'none';
-                    if (data.success) {
-                        aiResult.style.display = 'block';
-                        aiAudioPlayer.src = data.audio_url;
-                    } else {
-                        alert('Failed to generate: ' + data.error);
-                        generateAiBtn.style.display = 'flex';
-                    }
-                })
-                .catch(err => {
-                    aiLoading.style.display = 'none';
-                    alert('Error connecting to backend!');
-                    generateAiBtn.style.display = 'flex';
-                    console.error(err);
-                });
-        });
-    }
 });

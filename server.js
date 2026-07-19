@@ -146,3 +146,6 @@ app.post('/api/generate-music', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
+
+// Export the app for Vercel Serverless Function
+module.exports = app;

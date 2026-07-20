@@ -135,7 +135,8 @@
 
             try {
                 // 1. Upload Media
-                const mediaName = `${Date.now()}-${mediaFile.name}`;
+                const safeMediaName = mediaFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+                const mediaName = `${Date.now()}-${safeMediaName}`;
                 const { data: mData, error: mErr } = await supabaseClient.storage.from('omspritual_media').upload(mediaName, mediaFile);
                 if (mErr) throw mErr;
                 const media_url = supabaseClient.storage.from('omspritual_media').getPublicUrl(mediaName).data.publicUrl;
@@ -143,7 +144,8 @@
                 // 2. Upload Thumbnail (Optional)
                 let thumbnail_url = '';
                 if (thumbFile) {
-                    const tName = `${Date.now()}-${thumbFile.name}`;
+                    const safeThumbName = thumbFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+                    const tName = `${Date.now()}-${safeThumbName}`;
                     const { error: tErr } = await supabaseClient.storage.from('omspritual_media').upload(tName, thumbFile);
                     if (tErr) throw tErr;
                     thumbnail_url = supabaseClient.storage.from('omspritual_media').getPublicUrl(tName).data.publicUrl;
